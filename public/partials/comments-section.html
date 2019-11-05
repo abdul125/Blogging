@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <style>
+        .icon{
+            display: inline;
+        }
+        .icon:hover{
+            outline: 1px solid black; 
+            background-color: lightgray;
+        }
+    </style>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div style="padding: 5px 5px 5px 5px; border: 2px;">
+                <div align="center">
+                    <h1><i>{{article.title}} ({{article.votes}})</i></h1>
+                </div>
+        
+                <div style="padding-left: 25px; padding-bottom: 25px;">
+                    <input type="button" class="btn btn-block btn-primary" value="Home" ng-click="GoHome()" style="width: 33%; display: inline-block; min-width: 250px;"></input>
+                </div>
+                
+                <ul>
+                    <li ng-repeat='comment in article.comments'>
+                        <hr>
+                        <div>
+                            <strong><span ng-bind="comment.user"></span></strong>
+                            <div style="padding-left: 5rem; display: inline; color:gray" >
+                                <i><span ng-bind="comment.date"></span></i>
+                            </div>                  
+                        </div>
+                        <div>
+                            <span ng-bind="comment.body"></span>
+                        </div>
+                        <div style="padding: 5px 0px 15px 0px;">
+                            <img src="../images/thumbs-up.png" ng-click="UpVote(comment.commentid, article._id)" class="icon" width="20px" height="20px"/>
+                            <span ng-bind="'(' + comment.votes + ')'" style="display: inline"></span>
+                            <img src="../images/thumbs-down.svg" ng-click="DownVote(comment.commentid, article._id)" class="icon" width="20px" height="20px"/>
+                            <input type="button" class="btn btn-danger" value="Delete Comment" ng-click="Delete(comment.commentid)" style="display: block; margin : 0 auto;"/>
+                        </div>                               
+                    </li>
+                </ol>
+        
+                <form name="AddCommentsForm" ng-submit="AddComment()" novalidate>
+                    <div class="form-group" align="center">
+                        <h3>Add Comment</h3>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : AddCommentsForm.username.$invalid && !AddCommentsForm.username.$pristine }">
+                        <label>Username</label>
+                        <input type="text" name="username" class="form-control" ng-model="comment.username" required>
+                        <p ng-show="AddCommentsForm.username.$invalid && !AddCommentsForm.username.$pristine" class="help-block">Enter a username</p>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : AddCommentsForm.comments.$invalid && !AddCommentsForm.comments.$pristine }">
+                        <label>Comments</label>
+                        <textarea name="comments" class="form-control" ng-model="comment.comments" required></textarea>
+                        <p ng-show="AddCommentsForm.comments.$invalid && !AddCommentsForm.comments.$pristine" class="help-block">Enter comments</p>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-block btn-primary" ng-disabled="AddCommentsForm.$invalid" style="width: 33%; display: inline-block; min-width: 250px;">Add Comment</button>
+                    </div>
+                    
+                </form>
+        </div>       
+    </body>
+</html>
